@@ -1,0 +1,14 @@
+{
+  "_comment": "Static defaults; overridden per environment via the flags table. Owner: #eng-platform",
+  "flags": {
+    "quotes.instant_ltl": {"default": true, "description": "Instant LTL quotes from rate cards"},
+    "quotes.fuel_index_surcharge": {"default": true, "description": "Use Pacific Fuel Index instead of the static surcharge"},
+    "bookings.require_deposit": {"default": true, "description": "Collect a Stripe deposit at booking time"},
+    "tracking.public_share_links": {"default": true, "description": "Shareable tracking pages for consignees"},
+    "driver.offline_pod_queue": {"default": false, "rollout_percent": 25, "description": "Queue POD uploads while offline"},
+    "driver.crash_reporting": {"default": true, "description": "Upload crash reports from Harborline Driver"},
+    "auth.sso_saml": {"default": false, "description": "Enterprise SSO (SAML/OIDC) — contractor project, not launched"},
+    "billing.legacy_invoice_lookup": {"default": true, "description": "Read historical invoices from Ledgerline"}
+  },
+  "updated_at": "2025-10-02T17:20:00Z"
+}
