@@ -60,8 +60,8 @@ class BaseConfig:
 class DevelopmentConfig(BaseConfig):
     ENV_NAME = "development"
     DEBUG = True
-    # A throwaway random key per process is fine locally; sessions reset on restart.
-    SECRET_KEY = os.environ.get("SECRET_KEY") or secrets.token_hex(32)
+    # Fixed fallback so sessions survive the reloader and `flask shell`. Dev only!
+    SECRET_KEY = os.environ.get("SECRET_KEY", "TGBCuWVyeh4Gza2hu0u7I7rrZ16k4qpLRZEzIodUNQnEe-QFWW")
     SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL", "sqlite:///harborline-dev.db")
     LOG_LEVEL = os.environ.get("LOG_LEVEL", "DEBUG")
 
