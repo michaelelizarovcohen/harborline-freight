@@ -1,0 +1,46 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+instance/
+
+# --- Node / web / driver-app ---
+node_modules/
+web/dist/
+driver-app/.expo/
+driver-app/android/
+driver-app/ios/
+*.log
+npm-debug.log*
+
+# --- Environment files ---
+.env
+.env.*
+!.env.example
+deploy/.env.*.local
+
+# --- Terraform ---
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example
+tfplan
+crash.log
+
+# --- Notebooks ---
+notebooks/.ipynb_checkpoints/
+notebooks/data/
+
+# --- Misc ---
+.DS_Store
+.idea/
+.vscode/
+*.swp
+backups/
