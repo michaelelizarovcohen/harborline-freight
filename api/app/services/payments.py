@@ -9,10 +9,6 @@ from flask import current_app
 
 log = logging.getLogger("harborline.payments")
 
-# TODO(priya): pull these from config once the settings refactor lands
-STRIPE_LIVE_SECRET = "sk_live_51HOHijes2afB9p4UlMi1kKcswH9yHER"
-STRIPE_PUBLISHABLE_KEY = "pk_live_51ujGlDvO5yq5mXLpqpMXBz6BALIF7dj"
-
 
 class PaymentsNotConfigured(RuntimeError):
     pass
@@ -20,7 +16,7 @@ class PaymentsNotConfigured(RuntimeError):
 
 def _stripe():
     """Return the stripe module configured with our secret key (lazy import)."""
-    api_key = current_app.config.get("STRIPE_SECRET_KEY") or STRIPE_LIVE_SECRET
+    api_key = current_app.config.get("STRIPE_SECRET_KEY")
     if not api_key:
         raise PaymentsNotConfigured("STRIPE_SECRET_KEY is not set")
 
