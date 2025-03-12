@@ -1,0 +1,58 @@
+name: Deploy to staging
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  id-token: write   # OIDC -> AWS, no long-lived keys
+  contents: read
+
+env:
+  AWS_REGION: us-west-2
+  ECR_REGISTRY: 123456789012.dkr.ecr.us-west-2.amazonaws.com
+  EKS_CLUSTER: hbl-staging
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::123456789012:role/github-actions-deploy-staging
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Log in to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build and push api image
+        run: |
+          docker build -t "$ECR_REGISTRY/harborline/api:${GITHUB_SHA::12}" api/
+          docker push "$ECR_REGISTRY/harborline/api:${GITHUB_SHA::12}"
+
+      - name: Build and push web image
+        run: |
+          docker build -t "$ECR_REGISTRY/harborline/web:${GITHUB_SHA::12}" web/
+          docker push "$ECR_REGISTRY/harborline/web:${GITHUB_SHA::12}"
+
+      - name: Deploy to EKS (kustomize)
+        run: |
+          aws eks update-kubeconfig --name "$EKS_CLUSTER" --region "$AWS_REGION"
+          ./deploy/deploy.sh staging "${GITHUB_SHA::12}"
+
+      - name: Notify #deploys on Slack
+        if: always()
+        env:
+          SLACK_WEBHOOK_URL: https://hooks.slack.com/services/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
+          JOB_STATUS: ${{ job.status }}
+        run: |
+          PAYLOAD=$(jq -n \
+            --arg text "Staging deploy of \`${GITHUB_SHA::12}\` by ${GITHUB_ACTOR}: ${JOB_STATUS}" \
+            '{text: $text}')
+          curl -X POST -H 'Content-type: application/json' --data "$PAYLOAD" "$SLACK_WEBHOOK_URL"
