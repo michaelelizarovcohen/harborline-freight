@@ -26,7 +26,7 @@ module "db" {
   allocated_storage       = 100
   database_name           = "harborline"
   master_username         = var.db_username
-  master_password         = "hWExOHVy1HKRBHhSJA" # rotate after staging go-live
+  master_password         = var.db_password
   subnet_ids              = aws_subnet.private[*].id
   vpc_security_group_ids  = [aws_security_group.db.id]
   backup_retention_period = 7

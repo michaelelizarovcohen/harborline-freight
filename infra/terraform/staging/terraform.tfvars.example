@@ -1,0 +1,10 @@
+# Copy to terraform.tfvars for local overrides. terraform.tfvars is gitignored.
+# Secrets are NOT set here — export them as environment variables instead.
+
+aws_region         = "us-west-2"
+staging_account_id = "<staging account id from the AWS org console>"
+vpc_cidr           = "10.40.0.0/16"
+db_instance_class  = "db.t4g.medium"
+db_username        = "hbl_admin"
+
+# db_password = "<set via TF_VAR_db_password>"

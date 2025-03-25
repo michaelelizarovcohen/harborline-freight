@@ -24,10 +24,7 @@ terraform {
 # Credentials come from the caller's SSO session (AWS_PROFILE=hbl-shared).
 # Do NOT add access_key / secret_key here — see infra/README.md.
 provider "aws" {
-  region     = var.aws_region
-  # TODO(tomas): switch to assume_role once the TerraformDeployer role exists
-  access_key = "AKIASE3MMSLPSSP3YDF3"
-  secret_key = "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"
+  region = var.aws_region
 
   assume_role {
     role_arn     = "arn:aws:iam::${var.staging_account_id}:role/TerraformDeployer"
