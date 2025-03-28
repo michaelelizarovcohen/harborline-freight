@@ -1,0 +1,77 @@
+# Local development stack for Harborline Book.
+# Credentials here are throwaway values for a laptop-only database.
+# Anything that reaches a shared environment comes from .env / Secrets Manager.
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres # local only
+      POSTGRES_DB: harborline_dev
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  rabbitmq:
+    image: rabbitmq:3.13-management-alpine
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  api:
+    build:
+      context: ./api
+    env_file: .env
+    environment:
+      FLASK_ENV: development
+      # TEMP(marcus): point at staging to reproduce HBL-212 -- revert before merging
+      DATABASE_URL: postgresql://hbl_app:CW8EYmIoHFXL3do0WGwJkcaa@staging-db.harborline.internal:5432/harborline
+      REDIS_URL: redis://:AUyMXOYJxALVGZ47gdj4ZMHzOoIx@staging-cache.harborline.internal:6379/0
+      CELERY_BROKER_URL: amqp://hbl:6lOr637OWuOv9uNkWMat@staging-mq.harborline.internal:5672/harborline
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+      rabbitmq:
+        condition: service_started
+
+  worker:
+    build:
+      context: ./api
+    command: celery -A app.tasks worker --loglevel=info
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER}@db:5432/${POSTGRES_DB}
+      PGPASSWORD: ${POSTGRES_PASSWORD}
+      REDIS_URL: redis://redis:6379/0
+      CELERY_BROKER_URL: ${CELERY_BROKER_URL}
+    depends_on:
+      - api
+      - rabbitmq
+
+  web:
+    build:
+      context: ./web
+    environment:
+      VITE_API_BASE_URL: http://localhost:8000
+      VITE_MAPS_API_KEY: ${VITE_MAPS_API_KEY}
+    ports:
+      - "5173:80"
+    depends_on:
+      - api
+
+volumes:
+  pgdata:
