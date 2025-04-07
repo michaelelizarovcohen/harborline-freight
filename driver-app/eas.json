@@ -1,0 +1,36 @@
+{
+  "cli": {
+    "version": ">= 10.0.0"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "env": {
+        "HBL_API_BASE_URL": "https://api.staging.harborline.example"
+      }
+    },
+    "preview": {
+      "distribution": "internal",
+      "env": {
+        "HBL_API_BASE_URL": "https://api.staging.harborline.example"
+      }
+    },
+    "production": {
+      "autoIncrement": true,
+      "env": {
+        "HBL_API_BASE_URL": "https://api.harborline.example"
+      }
+    }
+  },
+  "submit": {
+    "production": {
+      "ios": {
+        "appleTeamId": "HARBORLINE"
+      },
+      "android": {
+        "track": "internal"
+      }
+    }
+  }
+}

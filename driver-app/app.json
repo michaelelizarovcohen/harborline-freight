@@ -1,0 +1,73 @@
+{
+  "expo": {
+    "name": "Harborline Driver",
+    "slug": "harborline-driver",
+    "version": "1.3.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0b2f45"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "bundleIdentifier": "com.harborline.driver",
+      "buildNumber": "42",
+      "supportsTablet": false,
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Harborline Driver uses your location to show directions and share arrival updates with the shipper.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Location is shared in the background only while you are on an active job.",
+        "NSCameraUsageDescription": "The camera is used to photograph proof of delivery and bills of lading.",
+        "UIBackgroundModes": [
+          "location"
+        ]
+      }
+    },
+    "android": {
+      "package": "com.harborline.driver",
+      "versionCode": 42,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#0b2f45"
+      },
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_BACKGROUND_LOCATION",
+        "FOREGROUND_SERVICE",
+        "CAMERA"
+      ],
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyG3frvFhug4WaX7G5k29hQXBrCkY9y2sEM"
+        }
+      }
+    },
+    "plugins": [
+      "expo-secure-store",
+      [
+        "expo-location",
+        {
+          "isAndroidBackgroundLocationEnabled": true
+        }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow Harborline Driver to photograph proof of delivery."
+        }
+      ]
+    ],
+    "extra": {
+      "apiBaseUrl": "https://api.harborline.example",
+      "eas": {
+        "projectId": "harborline-driver"
+      }
+    },
+    "owner": "harborline-freight"
+  }
+}
