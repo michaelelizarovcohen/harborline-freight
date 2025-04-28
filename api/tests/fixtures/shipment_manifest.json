@@ -1,0 +1,12 @@
+{
+  "shipment_ref": "HBL-SHP-2025-004417",
+  "shipper": "Calder Marine Supply",
+  "origin_terminal": "PCD-01",
+  "destination_terminal": "SEA-03",
+  "line_items": [
+    {"sku": "SK426f7ebbe8fe645aff4f65614bd53cd6", "description": "Pallet - stainless deck hardware", "qty": 4, "weight_lb": 1860},
+    {"sku": "MS-40-RAIL", "description": "Rail stanchions (crated)", "qty": 12, "weight_lb": 720}
+  ],
+  "hazmat": false,
+  "requested_pickup": "2025-05-02T08:00:00-07:00"
+}

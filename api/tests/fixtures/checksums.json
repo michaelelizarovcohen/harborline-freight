@@ -1,0 +1,7 @@
+{
+  "_comment": "SHA-256 of the BOL PDF fixtures; used by test_storage to verify uploads are byte-identical.",
+  "bol_sample_letter.pdf": "e081608a74da3ba94c8c5f32f266473fae390ec680558884885a1bb79237a45d",
+  "bol_sample_a4.pdf": "17506463e4d97ef2b5ba77a6432c8ef2581c2a9bba4d572ae436a887068c1454",
+  "pod_signature.png": "781cfc6a6ac9df21e181b187da1532e796f8a2bed22790e28d2ea738ccc83e17",
+  "traceparent_example": "00-31be71e66a1b02a9a441ed3fe412d436-00f067aa0ba902b7-01"
+}
