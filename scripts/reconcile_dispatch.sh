@@ -14,7 +14,7 @@ RECON_DATE="${1:-$(date -u -d yesterday +%F)}"
 echo "reconciling bookings for ${RECON_DATE}"
 curl --fail --silent --show-error \
   -X POST "${DISPATCH_BASE_URL}/v2/reconcile" \
-  -H "Authorization: Bearer hbl_live_AVNQh25haAaCTib0E76Wrb2XGTmN9CTd" \
+  -H "Authorization: Bearer ${HBL_DISPATCH_TOKEN}" \
   -H "Content-Type: application/json" \
   -d "{\"date\": \"${RECON_DATE}\", \"source\": \"harborline-book\", \"dry_run\": false}" \
   | jq '.summary'
