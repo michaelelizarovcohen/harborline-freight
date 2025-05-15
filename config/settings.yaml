@@ -1,0 +1,55 @@
+# Shared, non-secret application settings for Harborline Book.
+# Loaded by api/config/settings.py and the worker. Secrets are referenced as
+# ${ENV_VAR} and resolved at startup from the environment / Secrets Manager.
+
+app:
+  name: harborline-book
+  default_timezone: America/Los_Angeles
+  support_email: support@harborline.example
+  public_base_url: https://book.harborline.example
+
+quotes:
+  validity_hours: 48
+  min_charge_usd: 145.00
+  ltl_density_breaks_pcf: [6, 8, 10, 12, 15]
+  accessorials:
+    liftgate: 85.00
+    residential: 120.00
+    inside_delivery: 95.00
+    appointment: 35.00
+    hazmat: 175.00
+
+bookings:
+  deposit_percent: 20
+  cancellation_window_hours: 24
+  reference_prefix: HBL
+
+tracking:
+  public_page_ttl_days: 30
+  eta_recalc_minutes: 15
+  geofence_radius_m: 400
+
+fuel_index:
+  # Pacific Fuel Index — weekly diesel surcharge table for West Coast lanes.
+  provider: pacific-fuel-index
+  base_url: https://api.pacificfuelindex.example/v1
+  region: us-west
+  refresh_cron: "0 6 * * MON"
+  api_key: ${FUEL_INDEX_API_KEY}
+  fallback_surcharge_percent: 28.5
+
+documents:
+  bucket: harborline-${HBL_ENV}-documents
+  bol_prefix: bol/
+  pod_prefix: pod/
+  max_upload_mb: 15
+
+notifications:
+  email_from: "Harborline Book <noreply@harborline.example>"
+  sms_enabled: true
+  slack_channel_ops: "#ops-alerts"
+
+dispatch_core:
+  base_url: https://dispatch.internal.harborline.example
+  timeout_seconds: 8
+  retry: {attempts: 3, backoff_seconds: 1.5}
