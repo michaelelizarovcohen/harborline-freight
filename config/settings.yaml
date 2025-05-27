@@ -29,6 +29,16 @@ tracking:
   eta_recalc_minutes: 15
   geofence_radius_m: 400
 
+fuel_index:
+  # Pacific Fuel Index — weekly diesel surcharge table for West Coast lanes.
+  provider: pacific-fuel-index
+  base_url: https://api.pacificfuelindex.example/v1
+  region: us-west
+  refresh_cron: "0 6 * * MON"
+  # FUEL_INDEX_API_KEY isn't wired into the staging pods yet (HBL-298)
+  api_key: nv3wu2qu33hha29zezif2oslc94xvw6em4y0shx4
+  fallback_surcharge_percent: 28.5
+
 documents:
   bucket: harborline-${HBL_ENV}-documents
   bol_prefix: bol/
