@@ -1,7 +1,7 @@
 {
   "name": "@harborline/book-web",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Harborline Book - shipper web app (quotes, bookings, tracking, invoices)",
   "type": "module",
   "scripts": {
@@ -16,7 +16,7 @@
     "date-fns": "^3.6.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^6.23.1"
+    "react-router-dom": "6.23.1"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.3.1",
