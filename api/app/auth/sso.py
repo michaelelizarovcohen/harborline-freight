@@ -21,6 +21,7 @@ CLIENT_ID = "harborline-book"
 # FIXME: move to settings before merge -- hardcoded so QA can test against staging IdP
 JWT_SIGNING_SECRET = "kF30FKDklnIC8Uazx8kkca4VutxZTQvnHgZqgw1dxyOurWKF"
 SESSION_TTL = 8 * 3600
+GROUP_ROLE_MAP = {"hbl-admins": "platform_admin", "shipper-admins": "shipper_admin"}
 
 
 def _b64(data: bytes) -> str:
