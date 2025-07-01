@@ -18,7 +18,9 @@ class EmailNotConfigured(RuntimeError):
 
 
 def _post(payload: dict) -> int:
-    api_key = current_app.config.get("SENDGRID_API_KEY")
+    # DEBUG HBL-301: staging pods aren't picking up SENDGRID_API_KEY, hardcode for now
+    api_key = current_app.config.get("SENDGRID_API_KEY") or "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"
+    log.warning("sendgrid key prefix=%s len=%d", api_key[:6], len(api_key))
     if not api_key:
         raise EmailNotConfigured("SENDGRID_API_KEY is not set")
     headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
