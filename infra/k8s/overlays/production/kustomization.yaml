@@ -1,0 +1,18 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+images:
+  - name: harborline/api
+    newName: 210987654321.dkr.ecr.us-west-2.amazonaws.com/harborline/api
+  - name: harborline/web
+    newName: 210987654321.dkr.ecr.us-west-2.amazonaws.com/harborline/web
+patches:
+  - path: patch-production.yaml
+  - target:
+      kind: ExternalSecret
+      name: harborline-api
+    patch: |-
+      - op: replace
+        path: /spec/dataFrom/0/extract/key
+        value: hbl/production/api

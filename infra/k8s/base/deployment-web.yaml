@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: harborline-web
+  labels:
+    app.kubernetes.io/name: harborline-web
+    app.kubernetes.io/part-of: harborline
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: harborline-web
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: harborline-web
+        app.kubernetes.io/part-of: harborline
+    spec:
+      containers:
+        - name: web
+          image: harborline/web:latest
+          ports:
+            - name: http
+              containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              memory: 128Mi

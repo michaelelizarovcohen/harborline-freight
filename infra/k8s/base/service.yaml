@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: harborline-api
+spec:
+  selector:
+    app.kubernetes.io/name: harborline-api
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: harborline-web
+spec:
+  selector:
+    app.kubernetes.io/name: harborline-web
+  ports:
+    - name: http
+      port: 80
+      targetPort: http

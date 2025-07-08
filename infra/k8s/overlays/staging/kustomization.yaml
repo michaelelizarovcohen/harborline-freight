@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+images:
+  - name: harborline/api
+    newName: 123456789012.dkr.ecr.us-west-2.amazonaws.com/harborline/api
+    newTag: staging
+  - name: harborline/web
+    newName: 123456789012.dkr.ecr.us-west-2.amazonaws.com/harborline/web
+    newTag: staging
+patches:
+  - path: patch-staging.yaml

@@ -1,0 +1,38 @@
+# Celery worker: rate-card recalculation, document OCR hand-off, dispatch sync.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: harborline-worker
+  labels:
+    app.kubernetes.io/name: harborline-worker
+    app.kubernetes.io/part-of: harborline
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: harborline-worker
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: harborline-worker
+        app.kubernetes.io/part-of: harborline
+    spec:
+      serviceAccountName: harborline-api
+      containers:
+        - name: worker
+          image: harborline/api:latest
+          command: ["celery", "-A", "app.tasks", "worker", "--loglevel=INFO", "--concurrency=4"]
+          envFrom:
+            - configMapRef:
+                name: harborline-config
+            - secretRef:
+                name: harborline-api
+          resources:
+            requests:
+              cpu: 200m
+              memory: 256Mi
+            limits:
+              memory: 512Mi
+          securityContext:
+            runAsNonRoot: true
+            allowPrivilegeEscalation: false

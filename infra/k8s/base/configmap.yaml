@@ -1,0 +1,17 @@
+# Non-secret runtime settings only. Anything sensitive goes through
+# externalsecret.yaml -> Secret "harborline-api".
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: harborline-config
+data:
+  FLASK_ENV: "production"
+  LOG_LEVEL: "INFO"
+  AWS_REGION: "us-west-2"
+  BOL_BUCKET: "hbl-staging-bol-documents"
+  DISPATCH_BASE_URL: "https://dispatch.harborline.internal/v2"
+  REDIS_HOST: "cache.harborline.internal"
+  RABBITMQ_HOST: "mq.harborline.internal"
+  DB_HOST: "staging-db.harborline.internal"
+  DB_NAME: "harborline"
+  FEATURE_FLAGS_PATH: "/app/config/feature_flags.json"
