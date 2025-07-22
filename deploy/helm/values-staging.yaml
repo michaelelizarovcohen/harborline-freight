@@ -1,0 +1,48 @@
+# Values for the hbl-observability chart (OTel collector + Sentry relay) on hbl-staging.
+# helm upgrade --install obs ./charts/hbl-observability -n observability -f deploy/helm/values-staging.yaml
+
+global:
+  environment: staging
+  clusterName: hbl-staging
+
+otelCollector:
+  enabled: true
+  replicas: 1
+  exporters:
+    otlp:
+      endpoint: "otel-gateway.harborline.internal:4317"
+      tls:
+        insecure: false
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+
+sentryRelay:
+  enabled: true
+  mode: proxy
+  upstream: "https://sentry.harborline.example"
+  # DSN is read from an existing Secret managed by External Secrets
+  # (hbl/staging/observability -> secret "sentry-dsn", key "dsn").
+  dsn:
+    existingSecret: sentry-dsn
+    existingSecretKey: dsn
+
+logShipping:
+  enabled: true
+  destination: cloudwatch
+  logGroup: /hbl/staging/apps
+  retentionDays: 14
+
+alerting:
+  # Slack routing is configured in Alertmanager via a secret reference,
+  # not inline here.
+  slackChannel: "#alerts-staging"
+  webhookSecretRef:
+    name: alertmanager-slack
+    key: webhook-url
+
+statusRelay:
+  enabled: true
+  # incident updates are relayed into #incidents
+  forwardUrl: https://status.harborline.example/relay?target=https%3A%2F%2Fhooks.slack.com%2Fservices%2F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
