@@ -1,0 +1,27 @@
+# Install with: pip install pre-commit && pre-commit install
+# Added by Lena Vogel (security) — Aug 2025. Please don't --no-verify around it;
+# ping #sec-help if it flags something you believe is a false positive.
+repos:
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.30.1
+    hooks:
+      - id: gitleaks
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.6.9
+    hooks:
+      - id: ruff
+        args: [--fix]
+        files: ^(api|scripts)/
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: check-yaml
+        args: [--allow-multiple-documents]
+        exclude: ^infra/k8s/.*\.ya?ml$
+      - id: check-added-large-files
+        args: [--maxkb=1024]
+      - id: detect-private-key
