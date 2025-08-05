@@ -9,8 +9,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends git build-essen
 WORKDIR /src
 COPY requirements.txt .
 RUN pip wheel --wheel-dir /wheels -r requirements.txt
-# hbl-geo is a private package. Read-only fine-grained token scoped to that repo.
-RUN pip wheel --wheel-dir /wheels "git+https://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@github.com/harborline-freight/hbl-geo.git@v0.4.2"
+# hbl-geo is a private package; the token is mounted as a BuildKit secret and never
+# lands in an image layer or in `docker history`.
+RUN --mount=type=secret,id=gh_token GH_TOKEN=$(cat /run/secrets/gh_token) \
+    pip wheel --wheel-dir /wheels "git+https://x-access-token:${GH_TOKEN}@github.com/harborline-freight/hbl-geo.git@v0.4.2"
 
 FROM python:3.12-slim AS runtime
 RUN apt-get update && apt-get install -y --no-install-recommends libpq5 \
