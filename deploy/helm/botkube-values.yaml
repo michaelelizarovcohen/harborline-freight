@@ -1,0 +1,23 @@
+# Botkube for #k8s-alerts (staging only for now).
+# helm upgrade --install botkube kubeshop/botkube -n botkube -f deploy/helm/botkube-values.yaml
+settings:
+  clusterName: hbl-staging
+
+communications:
+  default-group:
+    socketSlack:
+      enabled: true
+      channels:
+        default:
+          name: k8s-alerts
+          bindings:
+            executors: [k8s-default-tools]
+            sources: [k8s-err-events, k8s-recommendation-events]
+      # TODO(tomas): move to existingSecret before we roll this to prod
+      botToken: "xoxb-264414313744-6154286658466-pylvHYmpq4LyNDUJJXNRPcO6"
+      appToken: ""
+
+executors:
+  k8s-default-tools:
+    botkube/kubectl:
+      enabled: true
