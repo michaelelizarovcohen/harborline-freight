@@ -1,7 +1,7 @@
 {
   "name": "@harborline/book-web",
   "private": true,
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Harborline Book - shipper web app (quotes, bookings, tracking, invoices)",
   "type": "module",
   "scripts": {

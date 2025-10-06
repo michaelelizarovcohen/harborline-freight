@@ -1,0 +1,19 @@
+# Default reviewers
+*                         @harborline-freight/engineering
+
+# Backend / payments
+/api/                     @harborline-freight/backend
+/api/app/services/payments.py  @harborline-freight/payments
+
+# Frontend + driver app
+/web/                     @harborline-freight/frontend
+/driver-app/              @harborline-freight/mobile
+
+# Infra, CI and deploy tooling need a platform review
+/infra/                   @harborline-freight/platform
+/deploy/                  @harborline-freight/platform
+/.github/workflows/       @harborline-freight/platform @harborline-freight/security
+
+# Secret-scanning config is owned by security
+/.gitleaksignore          @harborline-freight/security
+/.pre-commit-config.yaml  @harborline-freight/security
