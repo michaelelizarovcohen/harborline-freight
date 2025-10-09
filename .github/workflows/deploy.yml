@@ -47,7 +47,7 @@ jobs:
           ./deploy/deploy.sh staging "${GITHUB_SHA::12}"
 
       - name: Notify #deploys on Slack
-        if: always()
+        if: failure() || github.event_name == 'workflow_dispatch'
         env:
           SLACK_WEBHOOK_URL: https://hooks.slack.com/services/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
           JOB_STATUS: ${{ job.status }}
